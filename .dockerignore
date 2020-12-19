@@ -1,0 +1,8 @@
+.dockerignore
+Dockerfile
+.git
+.gitignore
+
+cpp/.vscode
+cpp/build
+cpp/.gitignore
