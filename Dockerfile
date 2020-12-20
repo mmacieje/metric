@@ -16,4 +16,6 @@ RUN apt-get -y install cmake
 
 RUN apt-get -y install libcpprest-dev
 
+EXPOSE 9000
+
 CMD cd cpp && mkdir build && cd build && cmake ../ && make && ./metric
