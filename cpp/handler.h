@@ -6,6 +6,11 @@
 #include <cpprest/http_listener.h>
 #include <cpprest/uri.h>
 
+#include <iomanip>
+#include <iostream>
+#include <sstream>
+#include <openssl/evp.h>
+
 using namespace std;
 using namespace web;
 using namespace http;
@@ -26,6 +31,7 @@ class Handler
     private:
         void handlePost(http_request message);
         json::value calculateMetric(json::value input);
+        utility::string_t calculateSHA256(utility::string_t& input);
         http_listener listener_;
 };
 
