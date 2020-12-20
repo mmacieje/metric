@@ -6,12 +6,14 @@ project(metric VERSION 0.1.0)
 set (CMAKE_CXX_STANDARD 11)
 include_directories("${CMAKE_SOURCE_DIR}")
 
-set(Casablanca_LIBRARIES "-lboost_system -lcrypto -lssl -lcpprest")
-
-set(cpprestsdk_DIR /usr/lib/${CMAKE_LIBRARY_ARCHITECTURE}/cmake/)
-
-find_package(cpprestsdk REQUIRED NAMES cpprestsdk cpprest)
-
 add_executable(metric main.cpp handler.cpp)
 
+set(Casablanca_LIBRARIES "-lboost_system -lcrypto -lssl -lcpprest")
+
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+target_link_libraries(metric Threads::Threads)
+
+set(cpprestsdk_DIR /usr/lib/${CMAKE_LIBRARY_ARCHITECTURE}/cmake/)
+find_package(cpprestsdk REQUIRED NAMES cpprestsdk cpprest)
 target_link_libraries(metric ${Casablanca_LIBRARIES})
