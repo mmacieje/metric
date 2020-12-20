@@ -8,3 +8,5 @@ cpp/build
 cpp/.gitignore
 
 test
+nodejs/.gitignore
+nodejs/node_modules
