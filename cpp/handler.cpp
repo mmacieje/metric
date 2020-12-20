@@ -26,17 +26,26 @@ void Handler::handlePost(http_request message)
     catch (const std::exception & ex)
     {
         message.reply(status_codes::BadRequest, response);
-        return ;
+        return;
     }
 
     try
     {
         response = calculateMetric(input_json);
     }
+    catch (const InvalidJsonException & ex)
+    {
+        message.reply(status_codes::BadRequest, response);
+        return ;
+    }
+    catch (const HashingException & ex)
+    {
+        message.reply(status_codes::InternalError, ex.what());
+        return ;
+    }
     catch (const std::exception & ex)
     {
         message.reply(status_codes::InternalError, ex.what());
-        //message.reply(status_codes::BadRequest, response);
         return ;
     }
     message.reply(status_codes::OK, response);
@@ -49,7 +58,7 @@ json::value Handler::calculateMetric(json::value input)
 
     if(input.has_field("data") == false || input["data"].is_array() == false)
     {
-        throw std::exception();
+        throw InvalidJsonException();
     }
     json::value data = input["data"];
 
@@ -61,7 +70,7 @@ json::value Handler::calculateMetric(json::value input)
         json::value el = data[i];
         if(el.has_field("signature") == false || el["signature"].is_string() == false)
         {
-            throw std::exception();
+            throw InvalidJsonException();
         }
         signature += el["signature"].as_string();
     }
@@ -114,7 +123,7 @@ utility::string_t Handler::calculateSHA256(utility::string_t& input)
     }
     else
     {
-        throw std::exception();
+        throw HashingException();
     }
     
 }

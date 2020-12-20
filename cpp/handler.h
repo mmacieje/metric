@@ -35,6 +35,13 @@ class Handler
         http_listener listener_;
 };
 
+class HashingException : public exception
+{
+};
+
+class InvalidJsonException : public exception
+{
+};
 #endif // HANDLER_H
 
 
